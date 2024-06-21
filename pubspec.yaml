@@ -12,6 +12,8 @@ dependencies:
   get:
   http:
   flutter_staggered_grid_view:
+  share:
+  flutter_html:
 
 dev_dependencies:
   flutter_test:

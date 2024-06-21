@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:share/share.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 import 'package:wallpaper/views/utils/ImageUtils.dart';
 import 'package:wallpaper/views/utils/ListUtils.dart';
@@ -99,7 +100,7 @@ class HomePage extends StatelessWidget {
               leading: Icon(Icons.share, color: ColorUtils.PrimaryColor),
               title: Text('Share', style: TextStyle(color: Colors.white)),
               onTap: () {
-                // Handle the share action
+                Share.share('https://play.google.com/store/apps/details?id=com.brainartit.wallpaper&pcampaignid=web_share');
               },
             ),
             ListTile(
