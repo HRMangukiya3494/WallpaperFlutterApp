@@ -69,10 +69,11 @@ class HomePage extends StatelessWidget {
               height: h * 0.1,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: h * 0.08,
-                  width: h * 0.08,
+                  height: h * 0.06,
+                  width: h * 0.06,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(ImageUtils.ImagePath + ImageUtils.AppLogo,),
