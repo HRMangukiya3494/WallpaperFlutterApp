@@ -12,8 +12,10 @@ dependencies:
   get:
   http:
   flutter_staggered_grid_view:
+  rate_my_app:
+  url_launcher:
   share:
-  flutter_html:
+  flutter_widget_from_html:
 
 dev_dependencies:
   flutter_test:

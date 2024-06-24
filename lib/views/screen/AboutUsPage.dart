@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:wallpaper/controller/PrivacyPolicyController.dart';
+import 'package:wallpaper/controller/AboutUsController.dart';
 
-class PrivacyPolicyPage extends StatelessWidget {
+class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
@@ -21,15 +21,15 @@ class PrivacyPolicyPage extends StatelessWidget {
           ),
         ),
         title: const Text(
-          'Privacy Policy',
+          'About Us',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
         backgroundColor: Colors.black,
       ),
-      body: GetBuilder<PrivacyPolicyController>(
-        init: PrivacyPolicyController(),
+      body: GetBuilder<AboutUsController>(
+        init: AboutUsController(),
         builder: (controller) {
           if (controller.htmlContent.isEmpty) {
             return Center(

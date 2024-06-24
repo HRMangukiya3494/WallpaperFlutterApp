@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 
-class PrivacyPolicyController extends GetxController {
+class AboutUsController extends GetxController {
   var isLoading = true.obs;
   var htmlContent = ''.obs;
 

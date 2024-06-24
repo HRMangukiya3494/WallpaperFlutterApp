@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:wallpaper/model/RateUs.dart';
+import 'package:wallpaper/views/utils/AppRoutes.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 import 'package:wallpaper/views/utils/ImageUtils.dart';
 import 'package:wallpaper/views/utils/ListUtils.dart';
@@ -10,6 +14,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RateUs().initializeRateMyApp(context);
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
@@ -65,7 +70,6 @@ class HomePage extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-
             SizedBox(
               height: h * 0.1,
             ),
@@ -77,7 +81,9 @@ class HomePage extends StatelessWidget {
                   width: h * 0.06,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(ImageUtils.ImagePath + ImageUtils.AppLogo,),
+                      image: AssetImage(
+                        ImageUtils.ImagePath + ImageUtils.AppLogo,
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -100,35 +106,45 @@ class HomePage extends StatelessWidget {
               leading: Icon(Icons.share, color: ColorUtils.PrimaryColor),
               title: Text('Share', style: TextStyle(color: Colors.white)),
               onTap: () {
-                Share.share('https://play.google.com/store/apps/details?id=com.brainartit.wallpaper&pcampaignid=web_share');
+                const String appLink =
+                    'https://play.google.com/store/apps/details?id=com.brainartit.wallpaper';
+                Share.share('Check out this app: $appLink');
               },
             ),
             ListTile(
               leading: Icon(Icons.privacy_tip, color: ColorUtils.PrimaryColor),
-              title: Text('Privacy Policy', style: TextStyle(color: Colors.white)),
+              title:
+                  Text('Privacy Policy', style: TextStyle(color: Colors.white)),
               onTap: () {
-                // Handle the privacy policy action
+                Get.toNamed(AppRoutes.PRIVACYPOLICY);
               },
             ),
             ListTile(
               leading: Icon(Icons.star, color: ColorUtils.PrimaryColor),
               title: Text('Rate Us', style: TextStyle(color: Colors.white)),
               onTap: () {
-                // Handle the rate us action
+                RateUs().forceShowRateDialog(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.apps, color: ColorUtils.PrimaryColor),
-              title: Text('Other Best Apps', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                // Handle other best apps action
+              title: Text('Other Best Apps',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () async {
+                const String allAppLink =
+                    'https://play.google.com/store/apps/dev?id=9103775981511771133&hl=en-IN';
+                if (await canLaunch(allAppLink)) {
+                  await launch(allAppLink);
+                } else {
+                  throw 'Could not launch $allAppLink';
+                }
               },
             ),
             ListTile(
               leading: Icon(Icons.info, color: ColorUtils.PrimaryColor),
               title: Text('About Us', style: TextStyle(color: Colors.white)),
               onTap: () {
-                // Handle about us action
+                Get.toNamed(AppRoutes.ABOUTUS);
               },
             ),
           ],
