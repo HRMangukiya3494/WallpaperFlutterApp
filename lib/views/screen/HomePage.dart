@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wallpaper/controller/HomeController.dart';
 import 'package:wallpaper/model/RateUs.dart';
 import 'package:wallpaper/views/utils/AppRoutes.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
@@ -14,7 +15,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RateUs().initializeRateMyApp(context);
+    final HomeController controller = Get.put(
+      HomeController(),
+    );
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
 
@@ -50,7 +53,6 @@ class HomePage extends StatelessWidget {
             );
           },
         ),
-
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -176,29 +178,46 @@ class HomePage extends StatelessWidget {
               height: h * 0.02,
             ),
             Expanded(
-              child: MasonryGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: h * 0.02,
-                crossAxisSpacing: h * 0.02,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        h * 0.01,
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          ImageUtils.ImagePath +
-                              'HomeWallpaper${index + 1}.jpg',
+              child: Obx(() {
+                if (controller.isLoading.value &&
+                    controller.wallpapers.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (!controller.isLoading.value &&
+                        scrollInfo.metrics.pixels ==
+                            scrollInfo.metrics.maxScrollExtent) {
+                      controller.fetchWallpapers();
+                      return true;
+                    }
+                    return false;
+                  },
+                  child: MasonryGridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: h * 0.02,
+                    crossAxisSpacing: h * 0.02,
+                    itemCount: controller.wallpapers.length,
+                    itemBuilder: (context, index) {
+                      var wallpaper = controller.wallpapers[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(h * 0.01),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              'https://hdwalls.wallzapps.com/upload/custom/' +
+                                  wallpaper['image'],
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
-                  );
-                },
-              ),
+                        height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
+                      );
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),
