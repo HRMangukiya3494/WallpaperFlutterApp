@@ -18,7 +18,7 @@ class IntroController extends GetxController {
         curve: Curves.easeIn,
       );
     } else {
-      Get.offNamed(AppRoutes.HOME);
+      Get.offNamed(AppRoutes.BOTTOMNAVIGATION);
     }
   }
 }

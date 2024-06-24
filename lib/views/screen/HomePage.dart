@@ -50,19 +50,7 @@ class HomePage extends StatelessWidget {
             );
           },
         ),
-        actions: [
-          Container(
-            height: h * 0.06,
-            width: h * 0.06,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  ImageUtils.ImagePath + ImageUtils.SearchArrow,
-                ),
-              ),
-            ),
-          ),
-        ],
+
         centerTitle: true,
       ),
       drawer: Drawer(
@@ -159,13 +147,16 @@ class HomePage extends StatelessWidget {
               children: HomeStory.map((story) {
                 return Column(
                   children: [
-                    Container(
-                      height: h * 0.06,
-                      width: h * 0.06,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(story['ImagePath']!),
-                          fit: BoxFit.fitHeight,
+                    GestureDetector(
+                      onTap: story['onTap'],
+                      child: Container(
+                        height: h * 0.06,
+                        width: h * 0.06,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(story['ImagePath']!),
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
                       ),
                     ),
@@ -193,7 +184,9 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(
+                        h * 0.01,
+                      ),
                       image: DecorationImage(
                         image: AssetImage(
                           ImageUtils.ImagePath +
