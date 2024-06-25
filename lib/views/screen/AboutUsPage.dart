@@ -28,29 +28,29 @@ class AboutUsPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: GetBuilder<AboutUsController>(
+      body: GetX<AboutUsController>(
         init: AboutUsController(),
         builder: (controller) {
           if (controller.htmlContent.isEmpty) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (controller.htmlContent.isNotEmpty) {
+          } else if (controller.htmlContent.value.startsWith('Error:')) {
+            return Center(
+              child: Text(
+                controller.htmlContent.value,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          } else {
             return SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.all(h * 0.016),
                 child: HtmlWidget(
                   controller.htmlContent.value,
                   textStyle: TextStyle(color: Colors.white),
-                ),
-              ),
-            );
-          } else {
-            return Center(
-              child: Text(
-                'Error loading privacy policy',
-                style: TextStyle(
-                  color: Colors.white,
                 ),
               ),
             );

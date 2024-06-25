@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 class PrivacyPolicyController extends GetxController {
-  var isLoading = true.obs;
   var htmlContent = ''.obs;
 
   @override
@@ -15,7 +14,7 @@ class PrivacyPolicyController extends GetxController {
 
   Future<void> fetchPrivacyPolicy() async {
     try {
-      var request = await HttpClient().getUrl(Uri.parse('https://customize.brainartit.com/chatgpt/api/privacy-policy'));
+      var request = await HttpClient().getUrl(Uri.parse('https://customize.brainartit.com/wallpaper/webservices/privacy_policy.php'));
       var response = await request.close();
 
       if (response.statusCode == 200) {
@@ -32,8 +31,6 @@ class PrivacyPolicyController extends GetxController {
       }
     } catch (e) {
       htmlContent.value = 'Error: $e';
-    } finally {
-      isLoading.value = false;
     }
   }
 }

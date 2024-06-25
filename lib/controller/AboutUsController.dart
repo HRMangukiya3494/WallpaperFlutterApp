@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:get/get.dart';
 
 class AboutUsController extends GetxController {
-  var isLoading = true.obs;
   var htmlContent = ''.obs;
 
   @override
@@ -15,7 +15,7 @@ class AboutUsController extends GetxController {
 
   Future<void> fetchPrivacyPolicy() async {
     try {
-      var request = await HttpClient().getUrl(Uri.parse('https://customize.brainartit.com/chatgpt/api/privacy-policy'));
+      var request = await HttpClient().getUrl(Uri.parse('https://customize.brainartit.com/wallpaper/webservices/about.php'));
       var response = await request.close();
 
       if (response.statusCode == 200) {
@@ -24,6 +24,7 @@ class AboutUsController extends GetxController {
 
         if (jsonResponse['status'] == 1) {
           htmlContent.value = jsonResponse['data'];
+          log("Data Show");
         } else {
           throw Exception(jsonResponse['message']);
         }
@@ -32,8 +33,6 @@ class AboutUsController extends GetxController {
       }
     } catch (e) {
       htmlContent.value = 'Error: $e';
-    } finally {
-      isLoading.value = false;
     }
   }
 }
