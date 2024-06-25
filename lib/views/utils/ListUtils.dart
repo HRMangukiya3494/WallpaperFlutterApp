@@ -11,31 +11,31 @@ List<Map> HomeStory = [
     },
   },
   {
-    'Name': "Suggested",
+    'Name': "Features",
     'ImagePath': ImageUtils.ImagePath + ImageUtils.HomeStory2,
     'onTap': () {
-      Get.toNamed(AppRoutes.CATEGORY);
+      Get.toNamed(AppRoutes.FEATURES);
     },
   },
   {
     'Name': "Colourful",
     'ImagePath': ImageUtils.ImagePath + ImageUtils.HomeStory3,
     'onTap': () {
-      Get.toNamed(AppRoutes.CATEGORY);
+      Get.toNamed(AppRoutes.COLORFUL);
     },
   },
   {
     'Name': "New",
     'ImagePath': ImageUtils.ImagePath + ImageUtils.HomeStory4,
     'onTap': () {
-      Get.toNamed(AppRoutes.CATEGORY);
+      Get.toNamed(AppRoutes.NEW);
     },
   },
   {
     'Name': "Trending",
     'ImagePath': ImageUtils.ImagePath + ImageUtils.HomeStory5,
     'onTap': () {
-      Get.toNamed(AppRoutes.CATEGORY);
+      Get.toNamed(AppRoutes.TRENDING);
     },
   },
 ];

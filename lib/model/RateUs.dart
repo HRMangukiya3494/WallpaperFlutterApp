@@ -81,7 +81,7 @@ class RateUs {
             child: const Text(
               'OK',
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.black,
               ),
             ),
             onPressed: () async {
