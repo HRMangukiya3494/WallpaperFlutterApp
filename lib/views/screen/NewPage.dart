@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/NewController.dart';
+import 'package:wallpaper/views/screen/ImagePage.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 
 class NewPage extends StatelessWidget {
@@ -60,18 +61,31 @@ class NewPage extends StatelessWidget {
               itemCount: controller.wallpapers.length,
               itemBuilder: (context, index) {
                 var wallpaper = controller.wallpapers[index];
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(h * 0.01),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        'https://hdwalls.wallzapps.com/upload/custom/' +
-                            wallpaper['image'],
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(
+                          () => FullScreenImagePage(
+                        images: controller.wallpapers
+                            .map<String>((wp) =>
+                        'https://hdwalls.wallzapps.com/upload/${wp['image']}')
+                            .toList(),
+                        initialIndex: index,
                       ),
-                      fit: BoxFit.cover,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(h * 0.01),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          'https://hdwalls.wallzapps.com/upload/custom/' +
+                              wallpaper['image'],
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                    height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                   ),
-                  height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                 );
               },
             ),

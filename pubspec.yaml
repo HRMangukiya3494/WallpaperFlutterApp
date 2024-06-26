@@ -15,6 +15,7 @@ dependencies:
   rate_my_app:
   url_launcher:
   dot_navigation_bar:
+  carousel_slider:
   share:
   flutter_widget_from_html:
 

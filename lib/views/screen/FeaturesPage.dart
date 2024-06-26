@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/FeaturesController.dart';
+import 'package:wallpaper/views/screen/ImagePage.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 
 class FeaturesPage extends StatelessWidget {
@@ -34,6 +35,7 @@ class FeaturesPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: EdgeInsets.all(h * 0.02),
         child: Obx(() {
@@ -48,24 +50,37 @@ class FeaturesPage extends StatelessWidget {
               crossAxisSpacing: h * 0.02,
               itemCount: featuresController.wallpapers.length,
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        featuresController.wallpapers[index],
+                var wallpaper = featuresController.wallpapers[index];
+                return GestureDetector(
+                  onTap: () {
+                    List<String> images = featuresController.wallpapers
+                        .map((wp) => wp)
+                        .toList();
+                    Get.to(
+                          () => FullScreenImagePage(
+                        images: images,
+                        initialIndex: index,
                       ),
-                      fit: BoxFit.cover,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          wallpaper,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                    height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                   ),
-                  height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                 );
               },
             );
           }
         }),
       ),
-      backgroundColor: Colors.black,
     );
   }
 }

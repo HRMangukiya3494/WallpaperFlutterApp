@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/CategoryController.dart';
+import 'package:wallpaper/views/screen/ImagePage.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -42,20 +43,23 @@ class CategoryPage extends StatelessWidget {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Obx(() => Row(
-                children: List.generate(
-                  _controller.categories.length,
+                    children: List.generate(
+                      _controller.categories.length,
                       (index) => _buildCategoryButton(
-                    categoryName: _controller.categories[index]['category_name'] ?? '',
-                    isSelected: index == _controller.selectedIndex.value,
-                    onTap: () => _controller.selectCategory(index),
-                  ),
-                ),
-              )),
+                        categoryName: _controller.categories[index]
+                                ['category_name'] ??
+                            '',
+                        isSelected: index == _controller.selectedIndex.value,
+                        onTap: () => _controller.selectCategory(index),
+                      ),
+                    ),
+                  )),
             ),
             SizedBox(height: h * 0.02),
             Expanded(
               child: Obx(() {
-                if (_controller.wallpapers.isEmpty && _controller.isLoading.value) {
+                if (_controller.wallpapers.isEmpty &&
+                    _controller.isLoading.value) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: Colors.white,
@@ -75,7 +79,8 @@ class CategoryPage extends StatelessWidget {
                       crossAxisCount: 2,
                       mainAxisSpacing: h * 0.02,
                       crossAxisSpacing: h * 0.02,
-                      itemCount: _controller.wallpapers.length + (_controller.hasMore.value ? 1 : 0),
+                      itemCount: _controller.wallpapers.length +
+                          (_controller.hasMore.value ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index == _controller.wallpapers.length) {
                           return Center(
@@ -86,19 +91,33 @@ class CategoryPage extends StatelessWidget {
                         }
 
                         var wallpaperInfo = _controller.wallpapers[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(h * 0.02),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                "https://hdwalls.wallzapps.com/upload/custom/" +
-                                    wallpaperInfo['images'],
+                        return GestureDetector(
+                          onTap: () {
+                            List<String> images = _controller.wallpapers
+                                .map((wallpaper) =>
+                                    "https://hdwalls.wallzapps.com/upload/${wallpaper['images']}")
+                                .toList();
+                            Get.to(
+                              FullScreenImagePage(
+                                images: images,
+                                initialIndex: index,
                               ),
-                              fit: BoxFit.cover,
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(h * 0.02),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  "https://hdwalls.wallzapps.com/upload/custom/" +
+                                      wallpaperInfo['images'],
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
+                            height: h * 0.3,
+                            width: double.infinity,
                           ),
-                          height: h * 0.3,
-                          width: double.infinity,
                         );
                       },
                     ),
@@ -130,8 +149,8 @@ class CategoryPage extends StatelessWidget {
           border: isSelected
               ? null
               : Border.all(
-            color: Colors.white,
-          ),
+                  color: Colors.white,
+                ),
           borderRadius: BorderRadius.circular(
             h * 0.01,
           ),

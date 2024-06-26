@@ -19,7 +19,7 @@ class FeaturesController extends GetxController {
         var response = await http.get(Uri.parse('https://customize.brainartit.com/wallpaper/webservices/featured.php?page=$page'));
         if (response.statusCode == 200) {
           var data = json.decode(response.body);
-          var fetchedWallpapers = data['MaterialWallpaper'].map<String>((item) => 'https://hdwalls.wallzapps.com/upload/custom/${item['image']}').toList();
+          var fetchedWallpapers = data['MaterialWallpaper'].map<String>((item) => 'https://hdwalls.wallzapps.com/upload/${item['image']}').toList();
           wallpapers.addAll(fetchedWallpapers);
         }
       }

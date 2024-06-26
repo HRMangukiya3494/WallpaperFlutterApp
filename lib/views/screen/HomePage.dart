@@ -5,6 +5,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaper/controller/HomeController.dart';
 import 'package:wallpaper/model/RateUs.dart';
+import 'package:wallpaper/views/screen/ImagePage.dart';
 import 'package:wallpaper/views/utils/AppRoutes.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 import 'package:wallpaper/views/utils/ImageUtils.dart';
@@ -201,18 +202,28 @@ class HomePage extends StatelessWidget {
                     itemCount: controller.wallpapers.length,
                     itemBuilder: (context, index) {
                       var wallpaper = controller.wallpapers[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(h * 0.01),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              'https://hdwalls.wallzapps.com/upload/custom/' +
-                                  wallpaper['image'],
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(
+                                () => FullScreenImagePage(
+                              images: controller.wallpapers.map((wp) => 'https://hdwalls.wallzapps.com/upload/${wp['image']}').toList(),
+                              initialIndex: index,
                             ),
-                            fit: BoxFit.cover,
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(h * 0.01),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                'https://hdwalls.wallzapps.com/upload/custom/' +
+                                    wallpaper['image'],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
                           ),
+                          height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                         ),
-                        height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                       );
                     },
                   ),

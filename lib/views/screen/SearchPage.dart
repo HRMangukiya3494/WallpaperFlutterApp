@@ -64,9 +64,7 @@ class SearchPage extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Perform search action if needed
-                    },
+                    onTap: () {},
                     child: Container(
                       height: h * 0.06,
                       width: h * 0.06,
@@ -108,7 +106,7 @@ class SearchPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(h * 0.02),
                           image: DecorationImage(
                             image: NetworkImage(
-                              "https://hdwalls.wallzapps.com/upload/category/"  +
+                              "https://hdwalls.wallzapps.com/upload/category/" +
                                   category['category_image'],
                             ),
                             fit: BoxFit.cover,

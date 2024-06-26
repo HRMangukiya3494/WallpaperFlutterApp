@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/TrendingController.dart';
+import 'package:wallpaper/views/screen/ImagePage.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
 
 class TrendingPage extends StatelessWidget {
-  final TrendingController trendingController = Get.put(TrendingController(),);
+  final TrendingController trendingController = Get.put(TrendingController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +48,31 @@ class TrendingPage extends StatelessWidget {
               crossAxisSpacing: h * 0.02,
               itemCount: trendingController.wallpapers.length,
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: NetworkImage(
-                       trendingController.wallpapers[index],
+                var wallpaper = trendingController.wallpapers[index];
+                return GestureDetector(
+                  onTap: () {
+                    List<String> images = trendingController.wallpapers
+                        .map((wp) => wp)
+                        .toList();
+                    Get.to(
+                          () => FullScreenImagePage(
+                        images: images,
+                        initialIndex: index,
                       ),
-                      fit: BoxFit.cover,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          wallpaper, // Use the wallpaper URL directly
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                    height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                   ),
-                  height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                 );
               },
             );
