@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:wallpaper/views/utils/ColorUtils.dart';
+import 'package:wallpaper/controller/CategoryController.dart';
 import 'package:wallpaper/controller/SearchController.dart';
+import 'package:wallpaper/views/utils/ColorUtils.dart';
 import 'package:wallpaper/views/utils/ImageUtils.dart';
-import 'package:wallpaper/views/utils/ListUtils.dart';
 
 class SearchPage extends StatelessWidget {
   final SearchCategoryController controller = Get.put(
     SearchCategoryController(),
   );
-
-  final ValueNotifier<bool> isSearching = ValueNotifier(false);
 
   SearchPage({super.key});
 
@@ -48,9 +45,7 @@ class SearchPage extends StatelessWidget {
               width: w,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(
-                  h * 0.02,
-                ),
+                borderRadius: BorderRadius.circular(h * 0.02),
               ),
               child: Row(
                 children: [
@@ -64,23 +59,21 @@ class SearchPage extends StatelessWidget {
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
-                        EdgeInsets.symmetric(horizontal: h * 0.02),
+                            EdgeInsets.symmetric(horizontal: h * 0.02),
                       ),
-                      onChanged: (value) {
-                        isSearching.value = value.isNotEmpty;
-                      },
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // Perform search action if needed
+                    },
                     child: Container(
                       height: h * 0.06,
                       width: h * 0.06,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(
-                            ImageUtils.ImagePath + ImageUtils.BlackSearchArrow,
-                          ),
+                          image: AssetImage(ImageUtils.ImagePath +
+                              ImageUtils.BlackSearchArrow),
                         ),
                       ),
                     ),
@@ -88,71 +81,54 @@ class SearchPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: h * 0.02,
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: isSearching,
-              builder: (context, value, child) {
-                if (value) {
-                  return Expanded(
-                    child: MasonryGridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: h * 0.02,
-                      crossAxisSpacing: h * 0.02,
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                ImageUtils.ImagePath +
-                                    'HomeWallpaper${index + 1}.jpg',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
-                        );
+            SizedBox(height: h * 0.02),
+            Expanded(
+              child: Obx(() {
+                final categories = controller.filteredCategories;
+                return ListView.builder(
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final category = categories[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // Find the index of the selected category in the original list
+                        int originalIndex = Get.find<CategoryController>()
+                            .categories
+                            .indexWhere(
+                              (cat) => cat['cid'] == category['cid'],
+                            );
+                        // Navigate to category page with the correct index
+                        controller.selectCategory(originalIndex);
                       },
-                    ),
-                  );
-                } else {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: SearchCategory.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(bottom: h * 0.02),
-                          height: h * 0.14,
-                          width: w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              h * 0.02,
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: h * 0.02),
+                        height: h * 0.14,
+                        width: w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(h * 0.02),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              "https://hdwalls.wallzapps.com/upload/category/"  +
+                                  category['category_image'],
                             ),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  SearchCategory[index]['ImagePath']!),
-                              fit: BoxFit.cover,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            category['category_name'] ?? '',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: h * 0.028,
+                              color: Colors.white,
                             ),
                           ),
-                          child: Center(
-                            child: Text(
-                              SearchCategory[index]['Name']!,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: h * 0.028,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         ),

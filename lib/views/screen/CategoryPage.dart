@@ -3,11 +3,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/CategoryController.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
-import 'package:wallpaper/views/utils/ImageUtils.dart';
-import 'package:wallpaper/views/utils/ListUtils.dart';
 
 class CategoryPage extends StatelessWidget {
-  final CategoryController _controller = Get.put(CategoryController());
+  final CategoryController _controller = Get.find<CategoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +43,9 @@ class CategoryPage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Obx(() => Row(
                 children: List.generate(
-                  CategoryName.length,
+                  _controller.categories.length,
                       (index) => _buildCategoryButton(
-                    categoryName: CategoryName[index],
+                    categoryName: _controller.categories[index]['category_name'] ?? '',
                     isSelected: index == _controller.selectedIndex.value,
                     onTap: () => _controller.selectCategory(index),
                   ),
@@ -56,27 +54,57 @@ class CategoryPage extends StatelessWidget {
             ),
             SizedBox(height: h * 0.02),
             Expanded(
-              child: MasonryGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: h * 0.02,
-                crossAxisSpacing: h * 0.02,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          ImageUtils.ImagePath +
-                              'HomeWallpaper${index + 1}.jpg',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
+              child: Obx(() {
+                if (_controller.wallpapers.isEmpty && _controller.isLoading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
                     ),
-                    height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
                   );
-                },
-              ),
+                } else {
+                  return NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      if (scrollNotification is ScrollEndNotification &&
+                          scrollNotification.metrics.pixels ==
+                              scrollNotification.metrics.maxScrollExtent) {
+                        _controller.fetchWallpapers();
+                      }
+                      return false;
+                    },
+                    child: MasonryGridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: h * 0.02,
+                      crossAxisSpacing: h * 0.02,
+                      itemCount: _controller.wallpapers.length + (_controller.hasMore.value ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index == _controller.wallpapers.length) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          );
+                        }
+
+                        var wallpaperInfo = _controller.wallpapers[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(h * 0.02),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                "https://hdwalls.wallzapps.com/upload/custom/" +
+                                    wallpaperInfo['images'],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          height: h * 0.3,
+                          width: double.infinity,
+                        );
+                      },
+                    ),
+                  );
+                }
+              }),
             ),
           ],
         ),
@@ -117,23 +145,6 @@ class CategoryPage extends StatelessWidget {
               color: isSelected ? Colors.black : Colors.white,
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCategoryContent() {
-    int selectedIndex = _controller.selectedIndex.value;
-    String selectedCategory = CategoryName[selectedIndex];
-
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.all(16),
-      child: Text(
-        "Selected Category: $selectedCategory",
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20,
         ),
       ),
     );

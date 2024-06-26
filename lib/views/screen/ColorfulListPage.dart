@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/controller/ColorfulListController.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
@@ -47,37 +48,53 @@ class ColorfulListPage extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.all(h * 0.02),
           child: Obx(() {
-            if (colorfulListController.wallpapers.isEmpty) {
+            if (colorfulListController.wallpapers.isEmpty && colorfulListController.isLoading.value) {
               return Center(
                 child: CircularProgressIndicator(
                   color: Colors.white,
                 ),
               );
             } else {
-              return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              return NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollEndNotification &&
+                      scrollNotification.metrics.pixels ==
+                          scrollNotification.metrics.maxScrollExtent) {
+                    colorfulListController.fetchWallpapers();
+                  }
+                  return false;
+                },
+                child: MasonryGridView.count(
                   crossAxisCount: 2,
                   mainAxisSpacing: h * 0.02,
                   crossAxisSpacing: h * 0.02,
-                ),
-                itemCount: colorfulListController.wallpapers.length,
-                itemBuilder: (context, index) {
-                  var wallpaperInfo = colorfulListController.wallpapers[index];
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(h * 0.02),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          "https://hdwalls.wallzapps.com/upload/custom/" +
-                              wallpaperInfo['images'],
+                  itemCount: colorfulListController.wallpapers.length + (colorfulListController.hasMore ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == colorfulListController.wallpapers.length) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
                         ),
-                        fit: BoxFit.cover,
+                      );
+                    }
+
+                    var wallpaperInfo = colorfulListController.wallpapers[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(h * 0.02),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            "https://hdwalls.wallzapps.com/upload/custom/" +
+                                wallpaperInfo['images'],
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    height: h * 0.3,
-                    width: double.infinity,
-                  );
-                },
+                      height: (index % 2 == 0) ? h * 0.3 : h * 0.25,
+                      width: double.infinity,
+                    );
+                  },
+                ),
               );
             }
           }),
