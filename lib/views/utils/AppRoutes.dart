@@ -79,9 +79,7 @@ class AppRoutes {
     ),
     GetPage(
       name: COLORFULLIST,
-      page: () => ColorfulListPage(
-        arguments: {},
-      ),
+      page: () => ColorfulListPage(),
     ),
   ];
 }

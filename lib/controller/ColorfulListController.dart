@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,13 +27,13 @@ class ColorfulListController extends GetxController {
             List<Map<String, dynamic>>.from(data['MaterialWallpaper']),
           );
         } else {
-          print('Invalid data format: MaterialWallpaper is not a List');
+          log('Invalid data format: MaterialWallpaper is not a List');
         }
       } else {
-        print('Failed to load wallpapers: ${response.statusCode}');
+        log('Failed to load wallpapers: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching wallpapers: $e');
+      log('Error fetching wallpapers: $e');
     }
   }
 }
