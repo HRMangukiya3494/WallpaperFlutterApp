@@ -182,7 +182,11 @@ class HomePage extends StatelessWidget {
               child: Obx(() {
                 if (controller.isLoading.value &&
                     controller.wallpapers.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
                 }
 
                 return NotificationListener<ScrollNotification>(
@@ -202,11 +206,21 @@ class HomePage extends StatelessWidget {
                     itemCount: controller.wallpapers.length,
                     itemBuilder: (context, index) {
                       var wallpaper = controller.wallpapers[index];
+                      if (index == controller.wallpapers.length) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      }
                       return GestureDetector(
                         onTap: () {
                           Get.to(
-                                () => FullScreenImagePage(
-                              images: controller.wallpapers.map((wp) => 'https://hdwalls.wallzapps.com/upload/${wp['image']}').toList(),
+                            () => FullScreenImagePage(
+                              images: controller.wallpapers
+                                  .map((wp) =>
+                                      'https://hdwalls.wallzapps.com/upload//${wp['image']}')
+                                  .toList(),
                               initialIndex: index,
                             ),
                           );

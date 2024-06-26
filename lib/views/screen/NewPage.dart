@@ -39,9 +39,12 @@ class NewPage extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(h * 0.02),
         child: Obx(() {
-          if (controller.isLoading.value &&
-              controller.wallpapers.isEmpty) {
-            return Center(child: CircularProgressIndicator());
+          if (controller.isLoading.value && controller.wallpapers.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            );
           }
 
           return NotificationListener<ScrollNotification>(
@@ -64,10 +67,10 @@ class NewPage extends StatelessWidget {
                 return GestureDetector(
                   onTap: () {
                     Get.to(
-                          () => FullScreenImagePage(
+                      () => FullScreenImagePage(
                         images: controller.wallpapers
                             .map<String>((wp) =>
-                        'https://hdwalls.wallzapps.com/upload/${wp['image']}')
+                                'https://hdwalls.wallzapps.com/upload/${wp['image']}')
                             .toList(),
                         initialIndex: index,
                       ),

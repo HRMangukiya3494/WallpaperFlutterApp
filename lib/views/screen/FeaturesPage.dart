@@ -41,7 +41,7 @@ class FeaturesPage extends StatelessWidget {
         child: Obx(() {
           if (featuresController.isLoading.value) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.white,),
             );
           } else {
             return MasonryGridView.count(

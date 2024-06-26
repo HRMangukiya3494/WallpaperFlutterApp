@@ -33,7 +33,7 @@ class PrivacyPolicyPage extends StatelessWidget {
         builder: (controller) {
           if (controller.htmlContent.isEmpty) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.white,),
             );
           } else if (controller.htmlContent.value.startsWith('Error:')) {
             return Center(

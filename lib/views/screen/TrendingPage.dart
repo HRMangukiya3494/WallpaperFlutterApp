@@ -39,7 +39,7 @@ class TrendingPage extends StatelessWidget {
         child: Obx(() {
           if (trendingController.isLoading.value) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Colors.white,),
             );
           } else {
             return MasonryGridView.count(

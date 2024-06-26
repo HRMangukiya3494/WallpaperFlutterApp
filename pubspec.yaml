@@ -11,11 +11,11 @@ dependencies:
   cupertino_icons: ^1.0.6
   get:
   http:
-  flutter_staggered_grid_view:
   rate_my_app:
   url_launcher:
   dot_navigation_bar:
   carousel_slider:
+  flutter_staggered_grid_view:
   share:
   flutter_widget_from_html:
 
