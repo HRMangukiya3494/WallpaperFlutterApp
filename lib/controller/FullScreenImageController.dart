@@ -10,6 +10,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share/share.dart';
+import 'package:wallpaper/GoogleAdHelper.dart';
 import 'package:wallpaper/controller/DatabaseHelper.dart';
 
 class FullScreenImageController extends GetxController {
@@ -25,6 +26,8 @@ class FullScreenImageController extends GetxController {
   void onInit() {
     super.onInit();
     fetchLikedImages();
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+    GoogleAdsHelper.googleAdsHelper.showBannerAd();
   }
 
   void fetchLikedImages() async {
@@ -60,6 +63,9 @@ class FullScreenImageController extends GetxController {
       } catch (e) {
         log("$e");
       }
+      GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+      GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -97,6 +103,9 @@ class FullScreenImageController extends GetxController {
               : 'Failed to set wallpaper'),
           duration: Duration(seconds: 2),
         ));
+        GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+        GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Permission denied'),
@@ -122,6 +131,8 @@ class FullScreenImageController extends GetxController {
       Share.shareFiles([path],
           text:
               'Check out this cool wallpaper!\nFor more image: https://play.google.com/store/apps/details?id=com.wallscape.wallpaper&hl=en-IN');
+      GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+      GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

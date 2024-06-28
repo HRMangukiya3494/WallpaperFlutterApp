@@ -24,8 +24,10 @@ dependencies:
   permission_handler:
   external_path:
   image_gallery_saver:
+  shared_preferences:
+  google_mobile_ads:
   sqflite:
-  path_provider: 
+  path_provider:
 
 dev_dependencies:
   flutter_test:

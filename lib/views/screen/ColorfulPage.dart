@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wallpaper/GoogleAdHelper.dart';
 import 'package:wallpaper/controller/ColorfulController.dart';
 import 'package:wallpaper/views/utils/AppRoutes.dart';
 import 'package:wallpaper/views/utils/ColorUtils.dart';
@@ -61,6 +62,9 @@ class ColorfulPage extends StatelessWidget {
                         'color': colorInfo['color'],
                       },
                     );
+                    GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+                    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+
                   },
                   child: Container(
                     decoration: BoxDecoration(

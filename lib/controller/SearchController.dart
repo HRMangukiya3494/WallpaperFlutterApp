@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wallpaper/GoogleAdHelper.dart';
 import 'package:wallpaper/controller/CategoryController.dart';
 
 class SearchCategoryController extends GetxController {
@@ -11,6 +12,7 @@ class SearchCategoryController extends GetxController {
     super.onInit();
     filteredCategories.assignAll(Get.find<CategoryController>().categories);
     searchController.addListener(_filterCategories);
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
   }
 
   void _filterCategories() {
@@ -29,6 +31,9 @@ class SearchCategoryController extends GetxController {
     var categoryController = Get.find<CategoryController>();
     categoryController.selectCategory(index);
     Get.toNamed('/category');
+    GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+
   }
 
   @override

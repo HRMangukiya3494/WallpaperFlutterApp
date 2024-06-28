@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:wallpaper/GoogleAdHelper.dart';
 
 class CategoryController extends GetxController {
   var categories = <Map<String, dynamic>>[].obs;
@@ -14,6 +15,7 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
     fetchCategories();
   }
 
@@ -70,5 +72,8 @@ class CategoryController extends GetxController {
     hasMore.value = true;
     wallpapers.clear();
     fetchWallpapers();
+    GoogleAdsHelper.googleAdsHelper.interstitialAd!.show();
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
+
   }
 }

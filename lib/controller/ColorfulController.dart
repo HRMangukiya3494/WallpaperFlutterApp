@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:wallpaper/GoogleAdHelper.dart';
+
 class ColorfulController extends GetxController {
   var colors = <Map<String, dynamic>>[].obs;
 
@@ -11,20 +13,23 @@ class ColorfulController extends GetxController {
   void onInit() {
     fetchColors();
     super.onInit();
+    GoogleAdsHelper.googleAdsHelper.showInterstitialAd();
   }
 
   Future<void> fetchColors() async {
     try {
-      var response = await http.get(Uri.parse('https://customize.brainartit.com/wallpaper/webservices/color.php'));
+      var response = await http.get(Uri.parse(
+          'https://customize.brainartit.com/wallpaper/webservices/color.php'));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         colors.assignAll(data['MaterialWallpaper']
             .where((item) => item['category_image'] != null)
             .map<Map<String, dynamic>>((item) => {
-          'color': item['category_name'],
-          'image': 'https://hdwalls.wallzapps.com/upload/color/${item['category_image']}',
-          'cid': int.parse(item['cid']),
-        })
+                  'color': item['category_name'],
+                  'image':
+                      'https://hdwalls.wallzapps.com/upload/color/${item['category_image']}',
+                  'cid': int.parse(item['cid']),
+                })
             .toList());
       } else {
         log('Failed to load colors: ${response.statusCode}');
