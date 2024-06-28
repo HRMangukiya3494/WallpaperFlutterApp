@@ -130,7 +130,9 @@ class FullScreenImagePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          onPressed: () async {},
+                          onPressed: () async {
+                            await controller.downloadImage(context);
+                          },
                           icon: Icon(
                             Icons.download,
                             color: Colors.black,
@@ -149,7 +151,7 @@ class FullScreenImagePage extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () async {
-                            // Implement share functionality here
+                            controller.shareImage(context);
                           },
                           icon: Icon(
                             Icons.share,

@@ -23,6 +23,8 @@ dependencies:
   dio:
   async_wallpaper:
   permission_handler:
+  external_path:
+  image_gallery_saver:
 
 dev_dependencies:
   flutter_test:

@@ -18,7 +18,7 @@ class TrendingPage extends StatelessWidget {
           onPressed: () {
             Get.back();
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -38,8 +38,10 @@ class TrendingPage extends StatelessWidget {
         padding: EdgeInsets.all(h * 0.02),
         child: Obx(() {
           if (trendingController.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(color: Colors.white,),
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             );
           } else {
             return MasonryGridView.count(
@@ -51,11 +53,10 @@ class TrendingPage extends StatelessWidget {
                 var wallpaper = trendingController.wallpapers[index];
                 return GestureDetector(
                   onTap: () {
-                    List<String> images = trendingController.wallpapers
-                        .map((wp) => wp)
-                        .toList();
+                    List<String> images =
+                        trendingController.wallpapers.map((wp) => wp).toList();
                     Get.to(
-                          () => FullScreenImagePage(
+                      () => FullScreenImagePage(
                         images: images,
                         initialIndex: index,
                       ),
@@ -66,7 +67,7 @@ class TrendingPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: NetworkImage(
-                          wallpaper, // Use the wallpaper URL directly
+                          wallpaper,
                         ),
                         fit: BoxFit.cover,
                       ),

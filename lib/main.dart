@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wallpaper/controller/CategoryController.dart';
-import 'package:wallpaper/model/RateUs.dart';
 import 'package:wallpaper/views/utils/AppRoutes.dart';
 
 void main() async {
