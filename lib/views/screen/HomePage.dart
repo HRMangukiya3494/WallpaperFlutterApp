@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
               title: Text('Share', style: TextStyle(color: Colors.white)),
               onTap: () {
                 const String appLink =
-                    'https://play.google.com/store/apps/details?id=com.brainartit.wallpaper';
+                    'https://play.google.com/store/apps/details?id=com.wallscape.wallpaper';
                 Share.share('Check out this app: $appLink');
               },
             ),

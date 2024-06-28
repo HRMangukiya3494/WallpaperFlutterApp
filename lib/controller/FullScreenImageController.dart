@@ -121,7 +121,7 @@ class FullScreenImageController extends GetxController {
 
       Share.shareFiles([path],
           text:
-              'Check out this cool wallpaper!\nFor more image: https://play.google.com/store/apps/details?id=com.brainartit.wallpaper&hl=en-IN');
+              'Check out this cool wallpaper!\nFor more image: https://play.google.com/store/apps/details?id=com.wallscape.wallpaper&hl=en-IN');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

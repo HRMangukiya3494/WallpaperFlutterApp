@@ -11,7 +11,7 @@ class RateUs {
     minLaunches: 0,
     remindDays: 1,
     remindLaunches: 1,
-    googlePlayIdentifier: 'com.brainartit.wallpaper',
+    googlePlayIdentifier: 'com.wallscape.wallpaper',
   );
 
   Future<void> initializeRateMyApp(BuildContext context) async {
@@ -62,7 +62,7 @@ class RateUs {
 
   void launchURL() async {
     const url =
-        'https://play.google.com/store/apps/details?id=com.brainartit.wallpaper';
+        'https://play.google.com/store/apps/details?id=com.wallscape.wallpaper';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
