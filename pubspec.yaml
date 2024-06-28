@@ -19,12 +19,13 @@ dependencies:
   share:
   flutter_widget_from_html:
   gallery_saver: any
-  path_provider:
   dio:
   async_wallpaper:
   permission_handler:
   external_path:
   image_gallery_saver:
+  sqflite:
+  path_provider: 
 
 dev_dependencies:
   flutter_test:

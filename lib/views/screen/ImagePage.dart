@@ -103,14 +103,19 @@ class FullScreenImagePage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.favorite_border,
-                            color: Colors.red,
-                            size: h * 0.02,
-                          ),
-                        ),
+                        child: Obx(() => IconButton(
+                              onPressed: () {
+                                controller.toggleLike(context);
+                              },
+                              icon: Icon(
+                                controller.likedImages.contains(
+                                        images[controller.currentIndex.value])
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: Colors.red,
+                                size: h * 0.02,
+                              ),
+                            )),
                       ),
                     ),
                   ],
